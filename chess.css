@@ -9,20 +9,67 @@ body {
     height: 100vh;
 }
 
+/* Media query for mobile screen sizes
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; 
+    }
+} */
+
+.board-container {
+    position: relative;
+}
+
 .board {
+    /* position: relative; */
     border-radius: 4px;
     background-color: rgb(208, 211, 214);
-    width: min(87vh,87vw);
-    height: min(87vh,87vw);
+    width: min(90vh,90vw);
+    height: min(90vh,90vw);
     overflow: hidden;
     display: flex;
     flex-wrap: wrap;
 }
 
+.overlay {
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 100%;
+    z-index: 9999999;
+    /* background: transparent; */
+    background-color: rgba(63, 67, 74, 0.225);
+}
+
+.promotion-popup {
+    display: none;
+    position: absolute;
+    left: 50vw;
+    transform: translateX(-50%);
+    /* display: flex; */
+    background-color: rgba(186, 200, 215, 0.65);
+    box-shadow: inset 0 0 1.35em rgb(250, 253, 255), 2px -2px 2em rgba(23, 24, 26, 0.35);
+    backdrop-filter: blur(4px);
+    width: clamp(12em, min(48vh, 48vw), 25em);
+    height: clamp(3em, min(12vh, 12vw), 7em);
+    z-index: 99999999;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+.promotion-popup#white {
+    top: 10vh;
+} 
+
+.promotion-popup#black {
+    bottom: 10vh;
+}
+
 .board-edge {
-    width: 40px;
-    height: 87%;
+    width: 2.5em;
+    height: 90%;
     color: white;
+    /* background-color: blue; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,12 +90,47 @@ body {
 
 .square {
     position: relative;
+    width: 12.5%;
+    height: 12.5%;
     -ms-user-select:none;
     -moz-user-select:none;
     -webkit-user-select:none;
     -webkit-touch-callout: none;
     -khtml-user-select: none;
     user-select:none;
+    box-shadow: 0 0 1em rgba(4, 237, 198, 0);
+    /* transition: 0.3s; */
+}
+
+/* .square:hover {
+    box-shadow: inset 0 0 1.3em rgba(4, 237, 217, 0.5);
+    scale: 1.075;
+} */
+
+
+
+.popup-square {
+    position: relative;
+    cursor: pointer;
+    width: 25%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgb(94, 198, 134, 0);
+    box-shadow: 0 0 2em rgb(94, 198, 134, 0);
+    -ms-user-select:none;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    user-select:none;
+    transition: 0.2s;
+    
+}
+
+.popup-square:hover {
+    background: rgba(6, 248, 159, 0.5);
+    box-shadow: 0 0 2.5em rgba(6, 248, 159, 0.5);
+    scale: 1.1;
 }
 
 .highlited-square {
@@ -59,7 +141,8 @@ body {
     content: "";
     width: 100%;
     height: 100%;
-    background: rgba(7, 171, 216, 0.466);
+    /* background: rgba(2, 248, 150, 0.388); */
+    box-shadow: inset 0 0 1.45em rgba(4, 227, 175, 0.8);
 }
 
 .capturable-square {
@@ -70,7 +153,8 @@ body {
     content: "";
     width: 100%;
     height: 100%;
-    background: rgba(247, 4, 73, 0.425);
+    /* background: rgba(241, 48, 14, 0.482); */
+    box-shadow: inset 0 0 1.65em rgba(241, 14, 52, 0.85);
 }
 
 .protected-square {
@@ -81,7 +165,8 @@ body {
     content: "";
     width: 100%;
     height: 100%;
-    background: rgba(2, 248, 125, 0.425);
+    /* background: rgba(21, 160, 246, 0.388); */
+    box-shadow: inset 0 0 1.45em rgba(53, 165, 250, 0.7);
 }
 
 .cursor-square {
@@ -92,8 +177,10 @@ body {
     content: "";
     width: 100%;
     height: 100%;
-    background: rgba(189, 236, 3, 0.689);
+    background: rgba(189, 236, 3, 0.25);
+    box-shadow: inset 0 0 1.25em rgba(189, 236, 3, 0.85);
 }
+
 
 .coord {
     margin: 0;
@@ -109,7 +196,12 @@ body {
     top: 50%;
     transform: translate(-50%,-50%);
     width: 87%;
-    cursor: pointer;
+    cursor: -webkit-grab;
+    cursor: grab;
     pointer-events: none;
-    
+}
+
+.piece:active {
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
 }
