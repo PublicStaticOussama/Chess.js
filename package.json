@@ -1,0 +1,27 @@
+{
+  "name": "chess",
+  "version": "1.0.0",
+  "main": "chess.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PublicStaticOussama/Chess.js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PublicStaticOussama/Chess.js/issues"
+  },
+  "homepage": "https://github.com/PublicStaticOussama/Chess.js#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1",
+    "uuid": "^11.1.0"
+  }
+}

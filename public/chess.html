@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="chess.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="helpers.js" defer></script>
+    <script src="chess.js" defer></script>
+</head>
+<body>
+    <div class="board-edge">
+        <button type="button" id="flip-board">
+            <i class="fa-solid fa-repeat"></i>
+        </button>
+    </div>
+    <div id="board" class="board">
+        <div id="white" class="promotion-popup">
+            <div id="popup-wn" class="popup-square"><img class="piece" src="https://i.postimg.cc/bwBddM1v/w-n.png" alt=""></div>
+            <div id="popup-wb" class="popup-square" ><img class="piece" src="https://i.postimg.cc/Kvm1WtZm/w-b.png" alt=""></div>
+            <div id="popup-wr" class="popup-square" ><img class="piece" src="https://i.postimg.cc/kGqgkdPT/w-r.png" alt=""></div>
+            <div id="popup-wq" class="popup-square" ><img class="piece" src="https://i.postimg.cc/76gLsZdC/w-q.png" alt=""></div>
+        </div>
+        <div id="black" class="promotion-popup">
+            <div id="popup-n" class="popup-square" ><img class="piece" src="https://i.postimg.cc/nhR9BMfp/n.png" alt=""></div>
+            <div id="popup-b" class="popup-square" ><img class="piece" src="https://i.postimg.cc/LXZPHS7R/b.png" alt=""></div>
+            <div id="popup-r" class="popup-square" ><img class="piece" src="https://i.postimg.cc/2jQqT0NH/r.png" alt=""></div>
+            <div id="popup-q" class="popup-square" ><img class="piece" src="https://i.postimg.cc/fyfJLRv4/q.png" alt=""></div>
+        </div>
+    </div>
+    <div class="overlay"></div>
+    <!-- <div class="board-container">
+    </div> -->
+    <div class="board-edge"></div>
+</body>
+</html>
