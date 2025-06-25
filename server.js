@@ -212,7 +212,7 @@ app.get('/get-secure-file', async (req, res) => {
   const token = req.query.token;               // “unique string”
   if (!token) return res.status(400).send('Missing token');
 
-  const encPath = path.join(__dirname, 'details.txt.enc');
+  const encPath = path.join(__dirname, 'test.txt.enc');
   if (!fs.existsSync(encPath)) return res.sendStatus(404);
 
   try {
