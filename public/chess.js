@@ -66,18 +66,18 @@ class ChessGame {
         this.isInitialized = false
         this.standardPositionFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         this.imgs = {
-            w_b: 'https://i.postimg.cc/Kvm1WtZm/w-b.png',
-            w_p: 'https://i.postimg.cc/8CfcvHbm/w-p.png',
-            w_q: 'https://i.postimg.cc/76gLsZdC/w-q.png',
-            w_r: 'https://i.postimg.cc/kGqgkdPT/w-r.png',
-            w_n: 'https://i.postimg.cc/bwBddM1v/w-n.png',
-            w_k: 'https://i.postimg.cc/Vk6df1rT/w-k.png',
-            _q: 'https://i.postimg.cc/fyfJLRv4/q.png',
-            _p: 'https://i.postimg.cc/W1bJdgK5/p.png',
-            _n: 'https://i.postimg.cc/nhR9BMfp/n.png',
-            _k: 'https://i.postimg.cc/MZVBNWVm/k.png',
-            _b: 'https://i.postimg.cc/LXZPHS7R/b.png',
-            _r: 'https://i.postimg.cc/2jQqT0NH/r.png',
+            w_b: './assets/imgs/w-b.png',
+            w_p: './assets/imgs/w-p.png',
+            w_q: './assets/imgs/w-q.png',
+            w_r: './assets/imgs/w-r.png',
+            w_n: './assets/imgs/w-n.png',
+            w_k: './assets/imgs/w-k.png',
+            _q: './assets/imgs/q.png',
+            _p: './assets/imgs/p.png',
+            _n: './assets/imgs/n.png',
+            _k: './assets/imgs/k.png',
+            _b: './assets/imgs/b.png',
+            _r: './assets/imgs/r.png',
         }
         this.choosingPromotion = false
         this.promotion_i = -1

@@ -3,6 +3,10 @@ const http = require('http');
 const { Server } = require('socket.io');
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors')
+const fs       = require('fs');
+const path     = require('path');
+const crypto   = require('crypto');
+const { pipeline } = require('stream/promises');
 // const { ChessGame } = require('./chess-game'); // Import your ChessGame class
 
 const app = express();
@@ -11,7 +15,7 @@ const server = http.createServer(app);
 
 app.use(express.static("public"));
 app.use(express.json());
-app.use(cors())
+// app.use(cors())
 
 // // Store active game rooms
 // const gameRooms = new Map();
@@ -203,6 +207,60 @@ app.use(cors())
 app.get('/', (req, res) => {
   res.send('Bruh how did you find this ?!');
 });
+
+app.get('/get-secure-file', async (req, res) => {
+  const token = req.query.token;               // “unique string”
+  if (!token) return res.status(400).send('Missing token');
+
+  const encPath = path.join(__dirname, 'details.txt.enc');
+  if (!fs.existsSync(encPath)) return res.sendStatus(404);
+
+  try {
+    // ── read header piece synchronously (28 bytes) ────────────────
+    const fd     = fs.openSync(encPath, 'r');
+    const header = Buffer.alloc(28);
+    fs.readSync(fd, header, 0, 28, 0);
+    const salt   = header.subarray(0, 16);
+    const iv     = header.subarray(16); // 12 bytes
+
+    // auth-tag is the last 16 bytes of the file
+    const stats     = fs.fstatSync(fd);
+    const tagOffset = stats.size - 16;
+    const authTag   = Buffer.alloc(16);
+    fs.readSync(fd, authTag, 0, 16, tagOffset);
+    fs.closeSync(fd);
+
+    // ── derive key & set up decipher stream ───────────────────────
+    const key      = crypto.scryptSync(token, salt, 32);
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+    decipher.setAuthTag(authTag);
+
+    // ── pipe: encrypted-file-body → decipher → client ─────────────
+    // skip header (28 B) and tail tag (16 B) while streaming
+    const encryptedBody = fs.createReadStream(encPath, {
+      start: 28,
+      end: tagOffset - 1
+    });
+
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename="card-details.txt"'
+    );
+
+    await pipeline(encryptedBody, decipher, res);
+
+    console.log('✓ Sent decrypted file');
+
+    // ── clean-up ─────────────────────────────────────────────────
+    fs.unlink(encPath, err =>
+      err ? console.error('Delete failed:', err) : console.log('✓ File deleted')
+    );
+  } catch (err) {
+    console.error('Decryption error:', err.message);
+    if (!res.headersSent) res.sendStatus(403); // wrong token / tampered file
+  }
+});
+
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

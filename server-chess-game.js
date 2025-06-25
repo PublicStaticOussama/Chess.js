@@ -55,22 +55,22 @@ class ChessGame {
         /** @type {IPiece[]} */
         this.captured_white = captured_white
         this.isInitialized = false
-        this.standardPositionFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        this.init_FEN_position = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         this.imgs = {
-            w_b: 'https://i.postimg.cc/Kvm1WtZm/w-b.png',
-            w_p: 'https://i.postimg.cc/8CfcvHbm/w-p.png',
-            w_q: 'https://i.postimg.cc/76gLsZdC/w-q.png',
-            w_r: 'https://i.postimg.cc/kGqgkdPT/w-r.png',
-            w_n: 'https://i.postimg.cc/bwBddM1v/w-n.png',
-            w_k: 'https://i.postimg.cc/Vk6df1rT/w-k.png',
-            _q: 'https://i.postimg.cc/fyfJLRv4/q.png',
-            _p: 'https://i.postimg.cc/W1bJdgK5/p.png',
-            _n: 'https://i.postimg.cc/nhR9BMfp/n.png',
-            _k: 'https://i.postimg.cc/MZVBNWVm/k.png',
-            _b: 'https://i.postimg.cc/LXZPHS7R/b.png',
-            _r: 'https://i.postimg.cc/2jQqT0NH/r.png',
+            w_b: './assets/imgs/w-b.png',
+            w_p: './assets/imgs/w-p.png',
+            w_q: './assets/imgs/w-q.png',
+            w_r: './assets/imgs/w-r.png',
+            w_n: './assets/imgs/w-n.png',
+            w_k: './assets/imgs/w-k.png',
+            _q: './assets/imgs/q.png',
+            _p: './assets/imgs/p.png',
+            _n: './assets/imgs/n.png',
+            _k: './assets/imgs/k.png',
+            _b: './assets/imgs/b.png',
+            _r: './assets/imgs/r.png',
         }
-        this.choosingPromotion = false
+        this.waiting_for_promotion_choice = false
         this.promotion_i = -1
         this.promotion_j = -1
     }
@@ -88,7 +88,6 @@ class ChessGame {
         let fen = "";
         for(const row of this.position) {
             let num_empty = 0;
-            let num_squares = 0;
             for(const square of row) {
                 if(square) {
                     if (num_empty > 0) {
@@ -209,7 +208,7 @@ class ChessGame {
      */
 
     request_move(new_i, new_j, old_i, old_j) {
-        if(!this.choosingPromotion && (new_i != old_i || new_j != old_j)) {
+        if(!this.waiting_for_promotion_choice && (new_i != old_i || new_j != old_j)) {
             console.log("------------------------------------------");
             console.log("old:", old_i, old_j);
             printPosition(this.position)
@@ -342,13 +341,13 @@ class ChessGame {
                     this.en_passant_pos = '-' // any capture results in eliminating the en passant move
                     if (piece_symbol.toLowerCase() == 'p') {
                         if (piece_color == 'b' && new_i == this.position.length - 1) {
-                            this.choosingPromotion = true
+                            this.waiting_for_promotion_choice = true
                             this.promotion_i = new_i
                             this.promotion_j = new_j
                             return "black_promotion_capture"
                         }
                         if (piece_color == 'w' && new_i == 0) {
-                            this.choosingPromotion = true
+                            this.waiting_for_promotion_choice = true
                             this.promotion_i = new_i
                             this.promotion_j = new_j
                             return "white_promotion_capture"
@@ -386,13 +385,13 @@ class ChessGame {
             this.position[new_i][new_j] = moved_piece_square;
             if (piece_symbol.toLowerCase() == 'p') {
                 if (piece_color == 'b' && new_i == this.position.length - 1) {
-                    this.choosingPromotion = true
+                    this.waiting_for_promotion_choice = true
                     this.promotion_i = new_i
                     this.promotion_j = new_j
                     return "black_promotion"
                 }
                 if (piece_color == 'w' && new_i == 0) {
-                    this.choosingPromotion = true
+                    this.waiting_for_promotion_choice = true
                     this.promotion_i = new_i
                     this.promotion_j = new_j
                     return "white_promotion"
@@ -430,7 +429,7 @@ class ChessGame {
         }
         
         this.position[i][j] = promotedSquare
-        this.choosingPromotion = false
+        this.waiting_for_promotion_choice = false
         this.turn = (this.turn == 'w')? 'b':'w';
         this.move_count++;
     }
