@@ -7,6 +7,7 @@ const fs       = require('fs');
 const path     = require('path');
 const crypto   = require('crypto');
 const { pipeline } = require('stream/promises');
+
 // const { ChessGame } = require('./chess-game'); // Import your ChessGame class
 
 const app = express();
@@ -15,6 +16,7 @@ const server = http.createServer(app);
 
 app.use(express.static("public"));
 app.use(express.json());
+const detect  = require('./detect-whatsapp');
 // app.use(cors())
 
 // // Store active game rooms
@@ -206,6 +208,10 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Bruh how did you find this ?!');
+});
+
+app.get('/some-link', detect, (req, res) => {
+  res.send('✅ Testing link resolved !!!');
 });
 
 app.get('/get-secure-file', async (req, res) => {
